@@ -32,7 +32,8 @@ jobs:
         $zig_latest_rb = $zig_latest_rb -replace 'version .+', "version `"$version`""
         # 写入zig_latest.rb文件
         $zig_latest_rb | Set-Content -Path zig_latest.rb
-
+        git config --get user.email
+        
         # Hub Push
         hub commit -m "zig_latest: Update to version $version"
         hub push
