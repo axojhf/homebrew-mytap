@@ -11,6 +11,13 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@main
+    - name: Set Git Name And Email
+      run: |
+        $user = if ($env:USER_NAME) { $env:USER_NAME } else { 'github-actions[bot]' }
+        $email = if ($env:USER_EMAIL) { $env:USER_EMAIL } else { 'github-actions[bot]@users.noreply.github.com' }
+        # $rem = "https://${env:GITHUB_ACTOR}:$env:GITHUB_TOKEN@github.com/$env:GITHUB_REPOSITORY.git"
+        git config --global user.name $user
+        git config --global user.email $email
     - name: Update Zig
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -33,7 +40,7 @@ jobs:
         # 写入zig_latest.rb文件
         $zig_latest_rb | Set-Content -Path zig_latest.rb
         git config --get user.email
-        
+        git config user.name 'github-actions[bot]'
         # Hub Push
         hub commit -m "zig_latest: Update to version $version"
         hub push
