@@ -1,0 +1,36 @@
+name: Excavator
+on:
+  workflow_dispatch:
+  schedule:
+    # run every 4 hours
+    - cron: '10 */4 * * *'
+
+jobs:
+  excavate:
+    name: Excavate
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@main
+    - name: Update Zig
+      run: |
+        $content = (Invoke-WebRequest -Uri https://ziglang.org/download/index.json -UseBasicParsing).Content
+        $url = $content | ConvertFrom-Json | Select-Object -ExpandProperty master | Select-Object -ExpandProperty x86_64-linux | Select-Object -ExpandProperty tarball
+        $sha256 = $content | ConvertFrom-Json | Select-Object -ExpandProperty master | Select-Object -ExpandProperty x86_64-linux | Select-Object -ExpandProperty shasum
+        $url -match 'zig-linux-x86_64-(.+)\.tar\.xz'
+        $version = $Matches[1]
+        # 打印url和sha256
+        Write-Output $url
+        Write-Output $sha256
+        Write-Output $version
+        # 打开zig_latest.rb文件
+        $zig_latest_rb = Get-Content -Path zig_latest.rb
+        # 替换url和sha256
+        $zig_latest_rb = $zig_latest_rb -replace 'url .+', "url `"$url`""
+        $zig_latest_rb = $zig_latest_rb -replace 'sha256 .+', "sha256 `"$sha256`""
+        $zig_latest_rb = $zig_latest_rb -replace 'version .+', "version `"$version`""
+        # 写入zig_latest.rb文件
+        $zig_latest_rb | Set-Content -Path zig_latest.rb
+    - name: List open pull requests
+      run: hub push
+      env:
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
