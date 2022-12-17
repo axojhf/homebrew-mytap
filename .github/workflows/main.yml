@@ -12,6 +12,8 @@ jobs:
     steps:
     - uses: actions/checkout@main
     - name: Update Zig
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         $content = (Invoke-WebRequest -Uri https://ziglang.org/download/index.json -UseBasicParsing).Content
         $url = $content | ConvertFrom-Json | Select-Object -ExpandProperty master | Select-Object -ExpandProperty x86_64-linux | Select-Object -ExpandProperty tarball
@@ -30,7 +32,7 @@ jobs:
         $zig_latest_rb = $zig_latest_rb -replace 'version .+', "version `"$version`""
         # 写入zig_latest.rb文件
         $zig_latest_rb | Set-Content -Path zig_latest.rb
-    - name: List open pull requests
-      run: hub push
-      env:
-       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        # Hub Push
+        hub commit -m "zig_latest: Update to version $version"
+        hub push
