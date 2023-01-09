@@ -6,7 +6,7 @@ class ZigLatest < Formula
   homepage "https://ziglang.org/"
   version "0.11.0-dev.1253+fcee1bf99"
   url "https://ziglang.org/builds/zig-linux-x86_64-0.11.0-dev.1253+fcee1bf99.tar.xz"
-  sha256 "6cac6142f2608cae1e57bfefd833e5e0df9293ec982f270f4fb01ef15bcc4d6f"
+  sha256 "408d30941287c127511c94d2c2d8a13c2288d26e83cf0512d25201bb847f1d9b"
   license "MIT"
 
   depends_on arch: :x86_64
