@@ -24,9 +24,12 @@ jobs:
       run: |
         $content = (Invoke-WebRequest -Uri https://ziglang.org/download/index.json -UseBasicParsing).Content
         $url = $content | ConvertFrom-Json | Select-Object -ExpandProperty master | Select-Object -ExpandProperty x86_64-linux | Select-Object -ExpandProperty tarball
-        $sha256 = $content | ConvertFrom-Json | Select-Object -ExpandProperty master | Select-Object -ExpandProperty x86_64-linux | Select-Object -ExpandProperty shasum
+        # $sha256 = $content | ConvertFrom-Json | Select-Object -ExpandProperty master | Select-Object -ExpandProperty x86_64-linux | Select-Object -ExpandProperty shasum
         $url -match 'zig-linux-x86_64-(.+)\.tar\.xz'
         $version = $Matches[1]
+        (new-object System.Net.WebClient).DownloadFile($url,'zig-linux-x86_64.tar.xz')
+        $sha256 = (Get-FileHash -Algorithm SHA256 'zig-linux-x86_64.tar.xz').Hash
+
         # 打印url和sha256
         Write-Output $url
         Write-Output $sha256
