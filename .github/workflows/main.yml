@@ -29,6 +29,7 @@ jobs:
         $version = $Matches[1]
         (new-object System.Net.WebClient).DownloadFile($url,'zig-linux-x86_64.tar.xz')
         $sha256 = (Get-FileHash -Algorithm SHA256 'zig-linux-x86_64.tar.xz').Hash
+        rm zig-linux-x86_64.tar.xz
 
         # 打印url和sha256
         Write-Output $url
