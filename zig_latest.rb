@@ -4,9 +4,9 @@
 class ZigLatest < Formula
   desc "A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software."
   homepage "https://ziglang.org/"
-  version "0.12.0-dev.389+61b70778b"
-  url "https://ziglang.org/builds/zig-linux-x86_64-0.12.0-dev.389+61b70778b.tar.xz"
-  sha256 "24D18E457FF35B6809B9E16C978B2977E6C855DD87F9234AE2BBA9A80E3D884B"
+  version "0.12.0-dev.390+6df78c3bc"
+  url "https://ziglang.org/builds/zig-linux-x86_64-0.12.0-dev.390+6df78c3bc.tar.xz"
+  sha256 "33912D37733C204BFDAB82DD41B5B8B93F7B0C65AAB55EA277BD1BB366CC7F2B"
   license "MIT"
 
   depends_on arch: :x86_64
