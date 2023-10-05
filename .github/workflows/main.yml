@@ -13,6 +13,7 @@ jobs:
     - uses: actions/checkout@main
     - name: Set Git Name And Email
       run: |
+        choco install hub
         $user = if ($env:USER_NAME) { $env:USER_NAME } else { 'github-actions[bot]' }
         $email = if ($env:USER_EMAIL) { $env:USER_EMAIL } else { 'github-actions[bot]@users.noreply.github.com' }
         # $rem = "https://${env:GITHUB_ACTOR}:$env:GITHUB_TOKEN@github.com/$env:GITHUB_REPOSITORY.git"
